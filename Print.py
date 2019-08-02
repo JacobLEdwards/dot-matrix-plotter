@@ -51,7 +51,7 @@ class Printer(object):
         print("Position: (%d, %d)" % (self.pos[0], self.pos[1]))
 
 	# Step pin set by number of steps
-    def doSteps(self, pins, dir, steps):
+    def doSteps(self, pins, sDir, steps):
 		# Step the requested number of steps.
         for x in range(steps):
             for x in range(4):
@@ -59,7 +59,7 @@ class Printer(object):
                     pins[x].on()
                 else:
                     pins[x].off()
-            if dir:
+            if sDir:
                 self.step += 1
             else:
                 self.step -= 1
@@ -83,7 +83,7 @@ class Printer(object):
             print(self.pos[axis] + mod*steps)
             return 0
 		# Perform Steps
-        self.doSteps(self.pins[axis], dir, steps)
+        self.doSteps(self.pins[axis], sDir, steps)
         self.pos[axis] = self.pos[axis] + mod*steps
 
 	# Step to position given.
@@ -100,8 +100,8 @@ class Printer(object):
 		# Step required amounts
         for axis, value in [[0, dx], [1, dy]]:
             sleep(0.1)
-            dir = 0 if (value >= 0) else 1
-            self.stepAxis(axis, dir, int(math.fabs(value)))
+            sDir = 0 if (value >= 0) else 1
+            self.stepAxis(axis, sDir, int(math.fabs(value)))
 
         return 1
 
@@ -116,8 +116,8 @@ class Printer(object):
             print("Axis %d homed." % axis)
         self.pos = [0, 0]
         # Offset by 20 steps
-        self.stepAxis(0, -1, 20)
-        self.stepAxis(0, -1, 20)
+        self.stepAxis(0, 0, 20)
+        self.stepAxis(0, 0, 20)
         sleep(0.5)
 
 	# Draw a pixel at current position.
