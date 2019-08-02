@@ -72,9 +72,9 @@ class Printer(object):
 	# Step axis by number of steps
 	# Direction 1 is towards limits.
 	# Axis X is 0.
-    def stepAxis(self, axis, dir, steps):
+    def stepAxis(self, axis, sDir, steps):
 		# Modifier for adjusting position.
-        mod = -1 if dir else 1
+        mod = -1 if sDir else 1
 		# DEBUG
 		#print("Stepping axis %d by %d steps in direction %d" % (axis, steps, dir))
 		# Check if step is valid from position.
@@ -115,6 +115,9 @@ class Printer(object):
                 self.pos = [200, 200]
             print("Axis %d homed." % axis)
         self.pos = [0, 0]
+        # Offset by 20 steps
+        self.stepAxis(0, -1, 20)
+        self.stepAxis(0, -1, 20)
         sleep(0.5)
 
 	# Draw a pixel at current position.
